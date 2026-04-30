@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Admin Dashboard - EDEA Rangpur</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 30px;
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .admin-header .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-header .logo-section h3 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .admin-header .logo-section p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .admin-header .admin-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .admin-header .admin-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .admin-header .admin-nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .admin-header .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-header .admin-user .user-info {
+            text-align: right;
+        }
+        
+        .admin-header .admin-user .user-info h6 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .admin-header .admin-user .user-info p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .admin-header .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-header .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .admin-content {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            margin-bottom: 30px;
+        }
+        
+        .page-title h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #272b41;
+            margin-bottom: 5px;
+        }
+        
+        .page-title p {
+            color: #757575;
+            margin: 0;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card.members .stat-icon {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        
+        .stat-card.verified .stat-icon {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
+        .stat-card.pending .stat-icon {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .stat-card.sessions .stat-icon {
+            background: rgba(118, 75, 162, 0.1);
+            color: #764ba2;
+        }
+        
+        .stat-card h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 5px;
+            color: #272b41;
+        }
+        
+        .stat-card p {
+            margin: 0;
+            color: #757575;
+            font-size: 14px;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .action-btn {
+            background: #fff;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .action-btn:hover {
+            background: #667eea;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        
+        .members-table-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .members-table-card .card-header {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .members-table-card .card-header h4 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #272b41;
+        }
+        
+        .search-filter {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-filter input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 250px;
+        }
+        
+        .search-filter select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        
+        .members-table-card .card-body {
+            padding: 0;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .members-table {
+            width: 100%;
+            margin: 0;
+        }
+        
+        .members-table thead {
+            background: #f8f9fa;
+        }
+        
+        .members-table th {
+            padding: 15px 20px;
+            font-weight: 600;
+            color: #272b41;
+            border-bottom: 2px solid #e0e0e0;
+            white-space: nowrap;
+        }
+        
+        .members-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+        
+        .members-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .member-info .info-text h6 {
+            margin: 0;
+            font-weight: 600;
+            color: #272b41;
+            font-size: 14px;
+        }
+        
+        .member-info .info-text p {
+            margin: 0;
+            color: #757575;
+            font-size: 12px;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-badge.verified {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
+        .status-badge.pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #f39c12;
+        }
+        
+        .action-icons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-icons button {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .action-icons .btn-view {
+            background: rgba(13, 224, 254, 0.1);
+            color: #0de0fe;
+        }
+        
+        .action-icons .btn-view:hover {
+            background: #0de0fe;
+            color: #fff;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.hidden {
+            display: none;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .admin-header .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .admin-header .admin-nav {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .search-filter input {
+                width: 100%;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Special Account Card Styles */
+.special-account-card {
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.special-account-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.1);
+}
+
+.special-account-card .account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.special-account-card .role-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.special-account-card .role-badge.president {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.special-account-card .role-badge.office-secretary {
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+
+.special-account-card .role-badge.finance-secretary {
+    background: rgba(25, 135, 84, 0.1);
+    color: #198754;
+}
+
+.special-account-card .account-info {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #272b41;
+}
+
+.special-account-card .account-info i {
+    width: 20px;
+    color: #667eea;
+}
+
+.special-account-card .verification-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.special-account-card .verification-status.verified {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.special-account-card .verification-status.unverified {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.special-account-card .account-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.special-account-card .btn-edit,
+.special-account-card .btn-delete {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.special-account-card .btn-edit {
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+
+.special-account-card .btn-edit:hover {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.special-account-card .btn-delete {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.special-account-card .btn-delete:hover {
+    background: #dc3545;
+    color: #fff;
+}
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h3><i class="fas fa-user-shield"></i> EDEA Admin Panel</h3>
+                <p>Electromedical Diploma Engineers Association, Rangpur</p>
+            </div>
+            
+            <div class="admin-nav">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="#" onclick="changePassword()"><i class="fas fa-key"></i> Change Password</a>
+            </div>
+            
+            <div class="admin-user">
+                <div class="user-info">
+                    <h6 id="adminName">Admin</h6>
+                    <p id="adminEmail">Loading...</p>
+                </div>
+                <button class="logout-btn" onclick="handleAdminLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Content -->
+    <div class="admin-content">
+        <!-- Page Title -->
+        <div class="page-title">
+            <h2>Dashboard</h2>
+            <p>Welcome back! Here's what's happening with EDEA members.</p>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-cards">
+            <div class="stat-card members">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 id="totalMembers">0</h3>
+                <p>Total Members</p>
+            </div>
+            
+            <div class="stat-card verified">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 id="verifiedMembers">0</h3>
+                <p>Email Verified</p>
+            </div>
+            
+            <div class="stat-card pending">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 id="pendingMembers">0</h3>
+                <p>Pending Verification</p>
+            </div>
+            
+            <div class="stat-card sessions">
+                <div class="stat-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3 id="totalSessions">0</h3>
+                <p>Active Sessions</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn" onclick="openSpecialAccountModal()">
+                <i class="fas fa-user-plus"></i> Create Special Account
+            </button>
+            <a href="#" class="action-btn" onclick="refreshData()">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </a>
+        </div>
+<!-- Special Account Creation Modal -->
+<div class="modal fade" id="specialAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border: none; border-radius: 15px; overflow: hidden;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; padding: 20px 30px;">
+                <h5 class="modal-title" style="font-weight: 600; margin: 0;">
+                    <i class="fas fa-user-shield"></i> Create Special Account
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 30px;">
+                <form id="specialAccountForm">
+                    <!-- Role Selection -->
+                    <div class="mb-4">
+                        <label class="form-label" style="font-weight: 600; color: #272b41; margin-bottom: 10px;">
+                            <i class="fas fa-user-tag"></i> Select Role
+                        </label>
+                        <select class="form-select" id="roleSelect" required style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                            <option value="">Choose a role...</option>
+                            <option value="office_secretary">Office Secretary</option>
+                            <option value="finance_secretary">Finance Secretary</option>
+                            <option value="president">President</option>
+                        </select>
+                        <small class="text-muted" style="display: block; margin-top: 5px;">Each role can only have one person assigned</small>
+                    </div>
+
+                    <!-- Current Holder Info -->
+                    <div id="currentHolderInfo" class="alert alert-info" style="display: none; border-radius: 8px; padding: 15px; background: rgba(13, 202, 240, 0.1); border: 1px solid rgba(13, 202, 240, 0.3);">
+                        <i class="fas fa-info-circle"></i> <strong>Current holder:</strong>
+                        <div id="currentHolderDetails" style="margin-top: 8px; font-size: 14px;"></div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 600; color: #272b41; margin-bottom: 10px;">
+                            <i class="fas fa-envelope"></i> Email Address
+                        </label>
+                        <input type="email" class="form-control" id="specialEmail" required placeholder="Enter email address" style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 600; color: #272b41; margin-bottom: 10px;">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="specialPassword" required placeholder="Enter password (min. 6 characters)" style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px 0 0 8px; font-size: 14px;">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border: 2px solid #e0e0e0; border-left: none; border-radius: 0 8px 8px 0;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted" style="display: block; margin-top: 5px;">Minimum 6 characters required</small>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="mb-4">
+                        <label class="form-label" style="font-weight: 600; color: #272b41; margin-bottom: 10px;">
+                            <i class="fas fa-user"></i> Full Name
+                        </label>
+                        <input type="text" class="form-control" id="specialFullName" required placeholder="Enter full name" style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn" id="createAccountBtn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: 600; font-size: 15px;">
+                            <i class="fas fa-user-plus"></i> Create Special Account
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Special Accounts List -->
+                <div class="mt-4" id="specialAccountsList" style="border-top: 2px solid #f0f0f0; padding-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h6 style="font-weight: 600; color: #272b41; margin: 0;">
+                            <i class="fas fa-users-cog"></i> Current Special Accounts
+                        </h6>
+                        <button onclick="refreshSpecialAccountsStatus()" style="background: transparent; border: none; color: #667eea; cursor: pointer; font-size: 18px;" title="Refresh verification status">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div id="specialAccountsContainer">
+                        <div style="text-align: center; padding: 20px; color: #757575;">
+                            <i class="fas fa-spinner fa-spin"></i> Loading accounts...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- Members Table -->
+        <div class="members-table-card">
+            <div class="card-header">
+                <h4><i class="fas fa-list"></i> Members List</h4>
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="Search by name or email..." onkeyup="filterMembers()">
+                    <select id="sessionFilter" onchange="filterMembers()">
+                        <option value="">All Sessions</option>
+                    </select>
+                    <select id="statusFilter" onchange="filterMembers()">
+                        <option value="">All Status</option>
+                        <option value="verified">Verified</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="members-table">
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Member ID</th>
+                                <th>Phone</th>
+                                <th>Session</th>
+                                <th>Shift</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #667eea;"></i>
+                                    <p style="margin-top: 10px; color: #757575;">Loading members...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Member Details Modal -->
+<div class="modal fade" id="memberDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;">
+                <h5 class="modal-title">Member Status Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalMemberInfo"></div>
+                <div class="status-details mt-4">
+                    <h6>Payment Status:</h6>
+                    <span id="modalPaymentStatus" class="badge" style="font-size: 14px;"></span>
+                    <h6 class="mt-3">Verification Status:</h6>
+                    <span id="modalVerificationStatus" class="badge" style="font-size: 14px;"></span>
+                    <h6 class="mt-3">Overall Status:</h6>
+                    <span id="modalOverallStatus" class="badge" style="font-size: 14px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="assets/js/jquery.min.js"></script>
+    
+    <!-- Bootstrap Core JS -->
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!-- Firebase and Admin Dashboard -->
+    <script type="module" src="assets/js/firebase-config.js"></script>
+    <script type="module" src="assets/js/admin-dashboard.js"></script>
+    <script type="module" src="assets/js/special-accounts.js"></script>
+</body>
+</html>

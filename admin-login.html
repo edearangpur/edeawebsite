@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Admin Login - EDEA Rangpur</title>
+    
+    <!-- Favicon -->
+    <link type="image/x-icon" href="assets/img/favicon.png" rel="icon">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        .admin-login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .admin-login-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .admin-login-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .admin-login-header i {
+            font-size: 60px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .admin-login-header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .admin-login-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .admin-login-body {
+            padding: 40px 30px;
+        }
+        
+        .admin-form-group {
+            margin-bottom: 25px;
+        }
+        
+        .admin-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #272b41;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .admin-form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .password-toggle-admin {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #757575;
+            cursor: pointer;
+        }
+        
+        .admin-login-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .admin-login-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .back-home-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-home-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-home-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background: #ffe6e6;
+            color: #d32f2f;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.hidden {
+            display: none;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="admin-login-page">
+        <div class="admin-login-card">
+            <div class="admin-login-header">
+                <i class="fas fa-user-shield"></i>
+                <h2>Admin Login</h2>
+                <p>EDEA Rangpur - Administrative Panel</p>
+            </div>
+            
+            <div class="admin-login-body">
+                <div class="error-message" id="errorMessage"></div>
+                
+                <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                    <div class="admin-form-group">
+                        <label for="adminEmail">Email Address</label>
+                        <input type="email" id="adminEmail" required placeholder="Enter admin email" autocomplete="username">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="adminPassword">Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="adminPassword" required placeholder="Enter password" autocomplete="current-password">
+                            <button type="button" class="password-toggle-admin" onclick="toggleAdminPassword()">
+                                <i class="far fa-eye" id="passwordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="admin-login-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                    </button>
+                </form>
+                
+                <div class="back-home-link">
+                    <a href="index.html">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="assets/js/jquery.min.js"></script>
+    
+    <!-- Bootstrap Core JS -->
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!-- Firebase and Admin Auth -->
+    <script type="module" src="assets/js/firebase-config.js"></script>
+    <script type="module" src="assets/js/admin-auth.js"></script>
+    
+    <script>
+        // Toggle Password Visibility
+        function toggleAdminPassword() {
+            const passwordField = document.getElementById('adminPassword');
+            const passwordIcon = document.getElementById('passwordIcon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

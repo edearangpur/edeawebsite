@@ -1,0 +1,646 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>My Profile - EDEA Rangpur</title>
+    
+    <!-- Favicons -->
+    <link type="image/x-icon" href="assets/img/favicon.png" rel="icon">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    
+    <style>
+        .profile-page {
+            padding: 50px 0;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .profile-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px 30px;
+            color: #fff;
+        }
+        
+        .profile-picture-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-picture-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .profile-picture {
+            width: 150px;
+            height: 200px;
+            border-radius: 8px;
+            border: 5px solid #fff;
+            object-fit: cover;
+            background: #fff;
+        }
+        
+        .profile-picture-upload {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #0de0fe;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-picture-upload:hover {
+            background: #09dca4;
+            transform: scale(1.1);
+        }
+        
+        .profile-picture-upload input {
+            display: none;
+        }
+        
+        .profile-name {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .profile-member-id {
+            font-size: 16px;
+            opacity: 0.9;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Status Badges */
+        .profile-status-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .status-badge i {
+            font-size: 14px;
+        }
+        
+        .status-verified {
+            background: rgba(40, 167, 69, 0.2);
+            color: #fff;
+        }
+        
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #fff;
+        }
+        
+        .status-inactive {
+            background: rgba(108, 117, 125, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .profile-body {
+            padding: 40px 30px;
+        }
+        
+        .profile-section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #272b41;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .profile-section-title i {
+            color: #0de0fe;
+        }
+        
+        .profile-form-group {
+            margin-bottom: 25px;
+        }
+        
+        .profile-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #272b41;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .profile-form-group label .required {
+            color: #ff0100;
+            margin-left: 3px;
+        }
+        
+        .profile-form-group input,
+        .profile-form-group select,
+        .profile-form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-form-group input:focus,
+        .profile-form-group select:focus,
+        .profile-form-group textarea:focus {
+            outline: none;
+            border-color: #0de0fe;
+            box-shadow: 0 0 0 3px rgba(13, 224, 254, 0.1);
+        }
+        
+        .profile-form-group input:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .profile-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-btn-save {
+            background: linear-gradient(135deg, #0de0fe 0%, #09dca4 100%);
+            color: #fff;
+        }
+        
+        .profile-btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 224, 254, 0.3);
+        }
+        
+        .profile-btn-logout {
+            background: #fff;
+            color: #ff0100;
+            border: 2px solid #ff0100;
+        }
+        
+        .profile-btn-logout:hover {
+            background: #ff0100;
+            color: #fff;
+        }
+        
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        /* Dynamic Fields */
+        .dynamic-field-container {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .remove-field-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff0100;
+            color: #fff;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .add-field-btn {
+            background: #0de0fe;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .add-field-btn:hover {
+            background: #09dca4;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.hidden {
+            display: none;
+        }
+        
+        @media (max-width: 767px) {
+            .profile-page {
+                padding: 30px 0;
+            }
+            
+            .profile-header {
+                padding: 30px 20px 20px;
+            }
+            
+            .profile-body {
+                padding: 30px 20px;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
+            
+            .profile-name {
+                font-size: 22px;
+            }
+            
+            .profile-status-container {
+                gap: 6px;
+            }
+            
+            .status-badge {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+        /* Payment Button Styles */
+.payment-trigger-btn {
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.payment-trigger-btn:hover {
+    transform: scale(1.05);
+}
+
+.status-payment-pending {
+    background: rgba(255, 193, 7, 0.2) !important;
+    color: #ffc107 !important;
+    cursor: default !important;
+}
+
+.status-payment-done {
+    background: rgba(40, 167, 69, 0.2) !important;
+    color: #28a745 !important;
+    cursor: default !important;
+}
+
+.status-payment-rejected {
+    background: rgba(220, 53, 69, 0.2) !important;
+    color: #dc3545 !important;
+    cursor: pointer !important;
+}
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a href="index.html" class="navbar-brand logo">
+                        <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                </div>
+                <ul class="nav header-navbar-rht">
+                    <li class="nav-item">
+                        <a class="nav-link header-login" href="index.html">
+                            <i class="fas fa-home"></i> Back to Home
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <!-- /Header -->
+        
+        <!-- Profile Page -->
+        <section class="profile-page">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="profile-card">
+                            <!-- Profile Header -->
+                            <div class="profile-header">
+                                <div class="profile-picture-container">
+                                    <div class="profile-picture-wrapper">
+                                        <img src="https://ui-avatars.com/api/?name=User&size=200&background=667eea&color=fff" alt="Profile Picture" class="profile-picture" id="profilePicture">
+                                        <label class="profile-picture-upload" title="Upload passport size photo (Max 500KB)">
+                                            <i class="fas fa-camera" style="color: #fff;"></i>
+                                            <input type="file" id="profilePictureInput" accept="image/*" onchange="handleProfilePictureUpload(event)">
+                                        </label>
+                                    </div>
+                                </div>
+                                <h2 class="profile-name" id="profileName">Loading...</h2>
+                                <p class="profile-member-id">Member ID: <span id="profileMemberID">-</span></p>
+                                
+                                <!-- Status Badges -->
+                                <div class="profile-status-container">
+                                    <span class="status-badge status-pending" id="statusEmail">
+                                        <i class="fas fa-envelope"></i> Email: Verifying...
+                                    </span>
+                                    <span class="status-badge status-pending" id="statusProfile">
+                                        <i class="fas fa-user-edit"></i> Profile: Creating...
+                                    </span>
+                                    <span class="status-badge status-inactive" id="statusCompletion">
+                                        <i class="fas fa-tasks"></i> Completion: <span id="completionPercent">0</span>%
+                                    </span>
+                                    <button class="status-badge status-inactive payment-trigger-btn" id="statusPaymentBtn" onclick="openPaymentModal()">
+                                        <i class="fas fa-credit-card"></i> Submit Payment
+                                    </button>
+                                    <span class="status-badge status-inactive" id="statusVerification">
+                                        <i class="fas fa-shield-alt"></i> Verification: Pending
+                                    </span>
+                                    <span class="status-badge status-inactive" id="statusComplete">
+                                        <i class="fas fa-check-circle"></i> Complete: No
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Profile Body -->
+                            <div class="profile-body">
+                                <form id="profileForm">
+                                    <!-- Personal Information -->
+                                    <h3 class="profile-section-title">
+                                        <i class="fas fa-user"></i> Personal Information
+                                    </h3>
+                                    
+                                    <div class="profile-info-grid">
+                                        <div class="profile-form-group">
+                                            <label for="fullName">Full Name <span class="required">*</span></label>
+                                            <input type="text" id="fullName" required>
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="email">Email Address</label>
+                                            <input type="email" id="email" disabled>
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="phone">Phone Number <span class="required">*</span></label>
+                                            <input type="tel" id="phone" required placeholder="+880 1XXX-XXXXXX">
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="bloodGroup">Blood Group</label>
+                                            <select id="bloodGroup">
+                                                <option value="">Select Blood Group</option>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="dateOfBirth">Date of Birth</label>
+                                            <input type="date" id="dateOfBirth">
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="session">Session <span class="required">*</span></label>
+                                            <select id="session" required>
+                                                <option value="">Select Session</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="shift">Shift <span class="required">*</span></label>
+                                            <select id="shift" required>
+                                                <option value="">Select Shift</option>
+                                                <option value="1st">1st Shift</option>
+                                                <option value="2nd">2nd Shift</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="professionalTitle">Professional Title</label>
+                                            <input type="text" id="professionalTitle" placeholder="e.g., Biomedical Engineer">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="profile-form-group">
+                                        <label for="address">Address</label>
+                                        <textarea id="address" rows="3" placeholder="Enter your full address"></textarea>
+                                    </div>
+                                    
+                                    <!-- Social Media Links -->
+                                    <h3 class="profile-section-title">
+                                        <i class="fas fa-share-alt"></i> Social Media (Optional)
+                                    </h3>
+                                    
+                                    <div class="profile-info-grid">
+                                        <div class="profile-form-group">
+                                            <label for="facebook">Facebook</label>
+                                            <input type="url" id="facebook" placeholder="https://facebook.com/yourprofile">
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="linkedin">LinkedIn</label>
+                                            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="twitter">Twitter</label>
+                                            <input type="url" id="twitter" placeholder="https://twitter.com/yourprofile">
+                                        </div>
+                                        
+                                        <div class="profile-form-group">
+                                            <label for="instagram">Instagram</label>
+                                            <input type="url" id="instagram" placeholder="https://instagram.com/yourprofile">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Work Experience -->
+                                    <h3 class="profile-section-title">
+                                        <i class="fas fa-briefcase"></i> Work Experience (Optional)
+                                    </h3>
+                                    
+                                    <div id="workExperienceContainer"></div>
+                                    
+                                    <button type="button" class="add-field-btn" onclick="addWorkExperience()">
+                                        <i class="fas fa-plus"></i> Add Work Experience
+                                    </button>
+                                    
+                                    <!-- Machine Skills -->
+                                    <h3 class="profile-section-title" style="margin-top: 30px;">
+                                        <i class="fas fa-cogs"></i> Machine Skills (Optional)
+                                    </h3>
+                                    
+                                    <div class="profile-form-group">
+                                        <label for="machineSkills">List machines you work with (comma separated)</label>
+                                        <textarea id="machineSkills" rows="4" placeholder="e.g., X-Ray Machine, CT Scanner, Ultrasound, ECG, Ventilator"></textarea>
+                                    </div>
+                                    
+                                    <div class="profile-actions">
+                                        <button type="submit" class="profile-btn profile-btn-save">
+                                            <i class="fas fa-save"></i> Save Changes
+                                        </button>
+                                        <button type="button" class="profile-btn profile-btn-logout" onclick="handleLogout()">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Profile Page -->
+        
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="assets/js/jquery.min.js"></script>
+    
+    <!-- Bootstrap Core JS -->
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="assets/js/script.js"></script>
+    
+    <!-- Firebase and Profile Scripts -->
+    <script type="module" src="assets/js/firebase-config.js"></script>
+    <script type="module" src="assets/js/auth.js"></script>
+    <script type="module" src="assets/js/profile.js"></script>
+    <!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border: none; border-radius: 15px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #0de0fe 0%, #09dca4 100%); color: #fff; border: none; padding: 25px;">
+                <h5 class="modal-title" style="font-weight: 600; margin: 0;">
+                    <i class="fas fa-money-bill-wave"></i> Submit Payment Information
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 30px;">
+                <div class="alert alert-info" style="border-radius: 8px; background: rgba(13, 202, 240, 0.1); border: 1px solid rgba(13, 202, 240, 0.3);">
+                    <i class="fas fa-info-circle"></i> <strong>Payment Amount:</strong> 100 BDT (Membership Fee)
+                </div>
+                
+                <form id="paymentSubmissionForm">
+                    <!-- Payment Mode -->
+                    <div class="mb-4">
+                        <label class="form-label" style="font-weight: 600; color: #272b41; margin-bottom: 10px;">
+                            <i class="fas fa-wallet"></i> Payment Mode <span style="color: #ff0100;">*</span>
+                        </label>
+                        <select class="form-select" id="paymentMode" required style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                            <option value="">Select Payment Method</option>
+                            <option value="bKash">bKash</option>
+                            <option value="Nagad">Nagad</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Bank Account">Bank Account</option>
+                        </select>
+                    </div>
+
+                    <!-- Transaction Number -->
+                    <div class="mb-4">
+                        <label class="form-label" style="font-weight: 600; color: #272b41; margin-bottom: 10px;">
+                            <i class="fas fa-hashtag"></i> Transaction Number <span style="color: #ff0100;">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="transactionNumber" required placeholder="Enter transaction/reference number" style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                        <small class="text-muted" style="display: block; margin-top: 5px;">
+                            For Cash: Enter "CASH-" followed by today's date (e.g., CASH-23DEC2024)
+                        </small>
+                    </div>
+
+                    <!-- Additional Note -->
+                    <div class="mb-4">
+                        <label class="form-label" style="font-weight: 600; color: #272b41; margin-bottom: 10px;">
+                            <i class="fas fa-comment"></i> Additional Note (Optional)
+                        </label>
+                        <textarea class="form-control" id="paymentNote" rows="2" placeholder="Any additional information..." style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #0de0fe 0%, #09dca4 100%); border: none; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 15px;">
+                            <i class="fas fa-paper-plane"></i> Submit Payment Information
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
