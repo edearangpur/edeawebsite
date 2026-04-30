@@ -1,0 +1,336 @@
+/* Authentication Popup Styles */
+/* File: assets/css/auth.css */
+
+/* Modal Overlay */
+.auth-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+.auth-modal-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal Container */
+.auth-modal {
+    background: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: slideUp 0.3s ease;
+}
+
+/* Modal Header */
+.auth-modal-header {
+    padding: 25px 30px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+}
+
+.auth-modal-header h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #272b41;
+    font-weight: 600;
+}
+
+.auth-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    color: #666;
+}
+
+.auth-close-btn:hover {
+    background: #e0e0e0;
+    color: #333;
+}
+
+/* Modal Body */
+.auth-modal-body {
+    padding: 30px;
+}
+
+/* Tab Navigation */
+.auth-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    color: #757575;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.auth-tab.active {
+    color: #0de0fe;
+}
+
+.auth-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #0de0fe;
+}
+
+/* Tab Content */
+.auth-tab-content {
+    display: none;
+}
+
+.auth-tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Form Groups */
+.auth-form-group {
+    margin-bottom: 20px;
+}
+
+.auth-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #272b41;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.auth-form-group input,
+.auth-form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.auth-form-group input:focus,
+.auth-form-group select:focus {
+    outline: none;
+    border-color: #0de0fe;
+    box-shadow: 0 0 0 3px rgba(13, 224, 254, 0.1);
+}
+
+.auth-form-group input.error {
+    border-color: #ff0100;
+}
+
+.auth-error-message {
+    color: #ff0100;
+    font-size: 13px;
+    margin-top: 5px;
+    display: none;
+}
+
+.auth-error-message.show {
+    display: block;
+}
+
+/* Password Toggle */
+.password-field {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #757575;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Forgot Password Link */
+.auth-forgot-password {
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.auth-forgot-password a {
+    color: #0de0fe;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.auth-forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.auth-submit-btn {
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #0de0fe 0%, #09dca4 100%);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 224, 254, 0.3);
+}
+
+.auth-submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Loading Spinner */
+.auth-loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.auth-loading.show {
+    display: block;
+}
+
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #0de0fe;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+/* Success Message */
+.auth-success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.auth-success-message.show {
+    display: block;
+}
+
+/* Divider */
+.auth-divider {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+}
+
+.auth-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.auth-divider span {
+    background: #fff;
+    padding: 0 15px;
+    position: relative;
+    color: #757575;
+    font-size: 14px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media only screen and (max-width: 575.98px) {
+    .auth-modal {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .auth-modal-header {
+        padding: 20px 20px 15px;
+    }
+    
+    .auth-modal-body {
+        padding: 20px;
+    }
+    
+    .auth-modal-header h3 {
+        font-size: 20px;
+    }
+    
+    .auth-tab {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
